@@ -586,6 +586,9 @@ async def create_completion(request: CompletionRequest):
                 best_of=request.best_of,
                 use_beam_search=request.use_beam_search,
             )
+            if request.repetition_penalty is not None:
+                gen_params["repetition_penalty"] = request.repetition_penalty
+
             for i in range(request.n):
                 content = asyncio.create_task(
                     generate_completion(gen_params, worker_addr)
